@@ -5,7 +5,7 @@ Personal Website, Profilio, Projects, Fun
 
 ## **Overview:**
 
-	This is ment to be a home for exploring projects and documentation, and a profilio for others who want to see my work!
+- This is ment to be a home for exploring projects and documentation, and a profilio for others who want to see my work!
 
 ## Favorite parts:
 
