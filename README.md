@@ -1,7 +1,12 @@
-
-# IsolatedEngine
-
+<h1>
+  <img src="assets/favicon.svg" alt="IsolatedWorld Icon" width="36" height="36" align="absmiddle">
+  IsolatedWorld
+</h1>
 Personal Website, Profilio, Projects, Fun
+
+
+![1792357940050](assets/zoom.png)
+
 
 ## **Overview:**
 
@@ -17,15 +22,18 @@ Heres how to build and run the server
 
 Otherwise, just open index.html at root to view the website.
 
-## Favorite parts:
 
-- Animated welcome title - a custom censor-bar transition alternates between IsolatedWorld and My Universe, with clipped sliding text and a directional wipe.
-- Interactive visuals - a 3D planet experience built with Three.js.
-- Project showcase — custom illustrated cards for different areas of development. : removed because too much work
-- Terminal details - a technical visual language alongside clean typography.
-- Responsive layout - styles adapt to smaller screens.
-- Motion accessibility - the welcome animation supports reduced-motion preferences.
-- EXPLODING PLANT: you get to nuke and shoot the planet (just right click on the earth)
+## Favorite Parts
+
+<img src="assets/world-lights.webp" alt="Earth's city lights" width="100%">
+
+- **Animated welcome title** - Custom censor-bar transition between IsolatedWorld and My Universe.
+- **Interactive visuals** - A 3D planet built with Three.js.
+- **Terminal details** - Clean typography with a technical aesthetic.
+- **Responsive layout** - Adapts to smaller screens.
+- **Motion accessibility** - Reduced-motion support.
+- **EXPLODING PLANET ** - Right-click Earth to launch a nuke!
+
 
 anyways **NUKE** (right click planets)
 
