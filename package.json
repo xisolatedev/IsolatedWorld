@@ -1,0 +1,29 @@
+{
+  "name": "isolatedworld",
+  "version": "1.0.0",
+  "description": "Personal Website, Profilio, Projects, Fun",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xisolatedev/IsolatedWorld.git"
+  },
+  "keywords": [
+    "xisolatedev",
+    "personal",
+    "website"
+  ],
+  "author": "xisolatedev",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/xisolatedev/IsolatedWorld/issues"
+  },
+  "homepage": "https://github.com/xisolatedev/IsolatedWorld#readme",
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0"
+  }
+}
