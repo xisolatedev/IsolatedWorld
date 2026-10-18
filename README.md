@@ -7,7 +7,7 @@ Personal Website, Profilio, Projects, Fun
 
 	This is ment to be a home for exploring projects and documentation, and a profilio for others who want to see my work!
 
-My favorite parts
+## Favorite parts:
 
 - Animated welcome title - a custom censor-bar transition alternates between IsolatedWorld and My Universe, with clipped sliding text and a directional wipe.
 - Interactive visuals - a 3D planet experience built with Three.js.
