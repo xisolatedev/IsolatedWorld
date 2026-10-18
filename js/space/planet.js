@@ -71,6 +71,8 @@ export function createPlanet() {
 
     return {
         group: planetGroup,
+        mesh: planet,
+
         update(delta) {
             planet.rotation.y += delta * 0.06;
             orbitOne.rotation.z += delta * 0.04;

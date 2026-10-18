@@ -115,6 +115,10 @@
     display: block;
     opacity: 0;
     transition: opacity 1.2s ease;
+    pointer-events: auto;
+    cursor: crosshair;
+    touch-action: manipulation;
+
 }
 
 .hero-world.canvas-ready #space-canvas {

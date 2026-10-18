@@ -2,7 +2,6 @@
 const states = [ "hide-first", "hide-last"];
 
 
-
 export function startWelcomeAnimation() {
     const title = document.getElementById("changing-world");
     if (!title) return;
@@ -73,4 +72,6 @@ export function startWelcomeAnimation() {
         index = (index + 1) % states.length;
         showState(index);
     }, 3300);
+
+
 }

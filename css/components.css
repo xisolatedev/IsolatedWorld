@@ -37,21 +37,6 @@
 
   transform: rotate(-32deg);
 }
-
-.brand-mark::before {
-  content: "";
-
-  position: absolute;
-
-  height: 38px;
-
-  width: 13px;
-
-  border: 1px solid var(--accent);
-
-  border-radius: 50%;
-}
-
 .brand-mark span {
   width: 6px;
 

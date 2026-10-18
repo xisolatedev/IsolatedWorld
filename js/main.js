@@ -9,3 +9,13 @@ startWelcomeAnimation();
 import("./space/scene.js")
     .then((space) => space.startSpaceScene())
     .catch(() => console.info("Showing the static world (Three.js unavailable)."));
+
+const time = document.getElementById("elapsed-time");
+
+//elapse time since page load
+let startTime = Date.now();
+let t = 0;
+setInterval(() => {
+    t++;
+    time.textContent = `// ${String(t).padStart(3, "0")}`;
+}, 1000);
