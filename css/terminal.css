@@ -1,0 +1,63 @@
+.terminal-body.interactive-terminal {
+    height: 340px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: text;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.terminal-output-area {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.terminal-line {
+    min-height: 1.7em;
+    color: #b8c1c9;
+}
+
+.terminal-command {
+    color: #f0eee9;
+}
+
+.terminal-title {
+    color: #a9cdd6;
+    font-weight: bold;
+}
+
+.terminal-error {
+    color: #ff7777;
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.terminal-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #f0eee9;
+    font: inherit;
+    caret-color: #a9cdd6;
+}
+
+.terminal-input::selection {
+    background: #355a70;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: #344455;
+    border-radius: 4px;
+}

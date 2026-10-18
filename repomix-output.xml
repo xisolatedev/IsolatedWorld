@@ -1,0 +1,1904 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+assets/
+  favicon.svg
+  world-lights.webp
+  world-poster.webp
+  world-texture.webp
+css/
+  base.css
+  components.css
+  layout.css
+  terminal.css
+js/
+  space/
+    planet.js
+    scene.js
+    stars.js
+    three.js
+  main.js
+  navigation.js
+  terminal.js
+  welcome.js
+public/
+  index.html
+.gitignore
+index.js
+LICENSE
+NOTICE
+package.json
+README.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="assets/favicon.svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#070d17"/>
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#a1edf4" stroke-width="2.5"/>
+  <ellipse cx="32" cy="32" rx="27" ry="11" fill="none" stroke="#77b7dc" stroke-width="2" transform="rotate(-32 32 32)"/>
+  <circle cx="32" cy="32" r="5" fill="#b1f4fc"/>
+</svg>
+</file>
+
+<file path="css/base.css">
+/* Base styles: colors, typography, and shared elements. */
+:root {
+    --background: #070b12;
+    --background-soft: #0b111b;
+    --surface: #101824;
+    --text: #f3f5f8;
+    --muted: #8e9baa;
+    --line: rgba(176, 201, 231, 0.14);
+    --accent: #87d5e9;
+    --accent-bright: #b1f4fc;
+    --purple: #9e8cf7;
+    --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body { margin: 0; min-width: 320px; background: var(--background); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: #06111c; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 5px; }
+img { max-width: 100%; display: block; }
+h1, h2, h3, p { margin-top: 0; }
+
+.container { width: min(1240px, calc(100% - 104px)); margin-inline: auto; }
+.section-padding { padding-block: 128px; }
+.section-label, .section-aside { color: var(--muted); font: 600 11px/1.5 var(--font-mono); letter-spacing: 0.16em; }
+.section-label span { color: var(--accent); margin-right: 10px; }
+.display-heading { margin: 25px 0 0; font-size: clamp(44px, 5.3vw, 78px); font-weight: 600; line-height: 1.13; letter-spacing: -0.065em; }
+.display-heading em { font-weight: 400; font-style: normal; color: var(--accent); }
+
+@media (max-width: 800px) {
+    .container { width: min(100% - 42px, 620px); }
+    .section-padding { padding-block: 90px; }
+    .display-heading { font-size: clamp(39px, 8vw, 58px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</file>
+
+<file path="css/components.css">
+/* Buttons, navigation details, cards, and decorative elements. */
+.brand { display: inline-flex; align-items: center; gap: 13px; white-space: nowrap; font-size: 14px; font-weight: 800; letter-spacing: .13em; }
+.brand-light { color: #a4c9d7; font-weight: 400; }
+.brand-mark { width: 27px; height: 27px; border: 1px solid var(--accent); border-radius: 50%; display: grid; place-items: center; transform: rotate(-32deg); }
+.brand-mark::before { content: ""; position: absolute; height: 38px; width: 13px; border: 1px solid var(--accent); border-radius: 50%; }
+.brand-mark span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+.site-nav a { color: #a1abb9; font-size: 12px; font-weight: 600; transition: color .2s ease; }
+.site-nav a:hover, .text-link:hover { color: var(--accent-bright); }
+.header-action { padding: 12px 19px; border: 1px solid rgba(170, 212, 238, .28); border-radius: 4px; font: 600 11px var(--font-mono); letter-spacing: .035em; transition: background .2s ease; }
+.header-action:hover { background: rgba(135, 213, 233, .11); }
+.header-action span { color: var(--accent); padding-left: 12px; }
+.menu-toggle { display: none; flex-direction: column; gap: 6px; border: 0; background: none; cursor: pointer; padding: 9px; }
+.menu-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.hero-noise { position: absolute; inset: 0; opacity: .26; background-image: radial-gradient(rgba(187, 216, 255, .4) .6px, transparent .9px); background-size: 55px 55px; mask-image: linear-gradient(to right, transparent, #000 67%); pointer-events: none; }
+.eyebrow { display: flex; align-items: center; gap: 13px; color: #a1bbcd; font: 600 10px var(--font-mono); letter-spacing: .17em; }
+.eyebrow-number { color: #60768a; margin-left: 9px; }
+.live-dot { flex: none; width: 7px; height: 7px; border-radius: 100%; background: #94e9b6; box-shadow: 0 0 0 4px rgba(148, 233, 182, .10), 0 0 13px rgba(148, 233, 182, .9); }
+.title-world { transition: opacity .24s ease, transform .24s ease; }
+.title-world.is-changing { opacity: 0; transform: translateY(8px); }
+.title-underline { height: 2px; width: 75px; background: var(--accent); margin: 26px 0 0 6px; box-shadow: 0 0 18px rgba(126, 224, 245, .5); }
+.button { display: inline-flex; justify-content: center; align-items: center; gap: 28px; padding: 18px 23px; border-radius: 3px; font-size: 12px; font-weight: 750; white-space: nowrap; transition: transform .2s ease, background .2s ease; }
+.button:hover { transform: translateY(-3px); }
+.button-primary { background: #adedef; color: #07141b; }
+.button-primary:hover { background: #d4fcfd; }
+.button-secondary { border: 1px solid rgba(178, 204, 232, .29); color: #e1e9ee; background: rgba(11, 20, 33, .30); }
+.button-secondary:hover { background: rgba(135, 213, 233, .08); }
+.button span { font-size: 16px; font-weight: 500; }
+.hero-scroll, .hero-status { display: flex; align-items: center; gap: 14px; font: 600 10px var(--font-mono); letter-spacing: .13em; color: #7791a5; }
+.scroll-track { height: 47px; width: 23px; border: 1px solid rgba(142, 185, 215, .45); border-radius: 15px; position: relative; }
+.scroll-track::after { content: ""; position: absolute; left: 10px; top: 10px; width: 1px; height: 12px; background: #b1ecf7; animation: scroll-down 2s infinite; }
+.hero-status span { color: #76d99b; }
+@keyframes scroll-down { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(13px); opacity: 0; } }
+
+.world-orbit { position: absolute; width: 85%; height: 40%; border: 1px solid rgba(129, 178, 227, .10); border-radius: 50%; top: 31%; left: 7.5%; transform: rotate(-23deg); }
+.orbit-two { transform: rotate(46deg); width: 80%; height: 43%; top: 28%; border-color: rgba(135, 213, 233, .09); }
+.world-coordinate { position: absolute; color: #6285a3; font: 10px var(--font-mono); letter-spacing: .16em; }
+.coordinate-top { top: 21%; right: 9%; }
+.coordinate-bottom { bottom: 15%; left: 14%; display: flex; align-items: center; gap: 12px; }
+.coordinate-line { display: inline-block; width: 35px; height: 1px; background: #6487a4; }
+.world-reticle { position: absolute; top: 19%; left: 18%; width: 28px; height: 28px; border-left: 1px solid #6199bd; border-top: 1px solid #6199bd; opacity: .55; }
+.text-link { display: inline-flex; gap: 25px; align-items: center; color: #d1e0ec; font: 600 12px var(--font-mono); letter-spacing: .1em; border-bottom: 1px solid #4a7a90; padding-bottom: 9px; }
+.text-link span { color: var(--accent); }
+
+.project-card { background: linear-gradient(145deg, #131c2a, #101622); border: 1px solid rgba(162, 197, 226, .15); border-radius: 8px; overflow: hidden; padding: 25px 26px 24px; transition: border-color .2s ease, transform .2s ease; }
+.project-card:hover { transform: translateY(-4px); border-color: rgba(135, 213, 233, .40); }
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.card-index { font: 600 10px var(--font-mono); color: #9caec0; letter-spacing: .14em; }
+.card-symbol { color: var(--accent); font-size: 23px; }
+.card-visual { height: 238px; margin: 19px 0 22px; position: relative; overflow: hidden; border: 1px solid rgba(167, 205, 231, .07); border-radius: 3px; }
+.visual-caption { position: absolute; bottom: 13px; left: 15px; color: rgba(201, 225, 240, .54); font: 9px var(--font-mono); letter-spacing: .16em; }
+.card-content { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; min-height: 97px; }
+.card-content h3 { font-size: 25px; letter-spacing: -.045em; font-weight: 650; margin: 0 0 8px; }
+.card-content p { font-size: 13px; line-height: 1.7; color: #9cabbc; max-width: 330px; margin-bottom: 0; }
+.round-link, .card-arrow { flex: none; width: 36px; height: 36px; border: 1px solid rgba(165, 209, 227, .30); border-radius: 50%; display: grid; place-items: center; font-size: 19px; color: #b8ecf4; }
+.round-link:hover { background: var(--accent); color: #06111a; }
+.card-tags { display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid rgba(174, 203, 227, .12); padding-top: 20px; margin-top: 17px; }
+.card-tags span, .skill-list span { font: 10px var(--font-mono); letter-spacing: .08em; color: #91aabd; border: 1px solid rgba(156, 195, 227, .16); border-radius: 3px; padding: 7px 10px; }
+
+/* The project illustrations are CSS-only: no external image downloads. */
+.visual-engine { background: radial-gradient(circle at 50% 45%, #293a7c 0%, #171d42 35%, #0a1226 78%); }
+.engine-grid { position: absolute; inset: -50%; background-image: linear-gradient(rgba(125, 133, 236, .13) 1px, transparent 1px), linear-gradient(90deg, rgba(125, 133, 236, .13) 1px, transparent 1px); background-size: 37px 37px; transform: rotateX(65deg) rotateZ(35deg); }
+.engine-cube { position: absolute; left: calc(50% - 74px); top: 38px; width: 148px; height: 148px; border: 2px solid #9db9ff; transform: rotate(27deg) skew(-9deg, -9deg); box-shadow: 0 0 36px rgba(129, 151, 244, .25), inset 0 0 28px rgba(129, 151, 244, .13); }
+.cube-back { transform: translate(36px, -12px) rotate(27deg) skew(-9deg, -9deg); opacity: .32; }
+.engine-cross { position: absolute; top: 43%; left: 49%; color: #c6d5ff; font-size: 33px; font-weight: 200; text-shadow: 0 0 26px #809aff; }
+.visual-vr { background: linear-gradient(#202d57, #22254b 55%, #0a1526); }
+.vr-sun { position: absolute; border-radius: 50%; width: 145px; height: 145px; top: 29px; left: calc(50% - 72px); background: linear-gradient(#f9a4be, #7c76ff); box-shadow: 0 0 80px rgba(180, 104, 242, .35); }
+.vr-landscape { position: absolute; width: 110%; height: 130px; left: -5%; bottom: -49px; background: #161d40; clip-path: polygon(0 59%, 18% 17%, 33% 52%, 47% 3%, 68% 54%, 83% 18%, 100% 62%, 100% 100%, 0 100%); }
+.landscape-front { bottom: -77px; background: #0d172c; transform: scaleX(-1); }
+.vr-frame { position: absolute; top: 79px; left: calc(50% - 118px); width: 236px; height: 84px; border: 6px solid #d4e0fb; border-radius: 48px 48px 38px 38px; display: flex; gap: 14px; padding: 14px; box-shadow: 0 8px 35px rgba(3, 6, 19, .7), 0 0 30px rgba(204, 222, 255, .35); background: rgba(13, 24, 49, .82); }
+.vr-lens { flex: 1; border: 1px solid rgba(193, 230, 255, .6); border-radius: 50%; background: radial-gradient(circle at 65% 20%, rgba(158, 216, 252, .6), #101d3c 65%); }
+.visual-drone { background: radial-gradient(circle at center, #14384d, #0b1e2d 56%, #081522); }
+.drone-radar { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(112, 225, 211, .23); border-radius: 50%; }
+.radar-outer { width: 225px; height: 225px; }
+.radar-inner { width: 145px; height: 145px; }
+.drone-radar::before, .drone-radar::after { content: ""; position: absolute; background: rgba(112, 225, 211, .15); }
+.drone-radar::before { left: 50%; top: 0; width: 1px; height: 100%; }
+.drone-radar::after { top: 50%; left: 0; height: 1px; width: 100%; }
+.drone-object { position: absolute; top: calc(50% - 24px); left: calc(50% - 24px); width: 48px; height: 48px; border: 8px solid #78e2d6; transform: rotate(45deg); filter: drop-shadow(0 0 17px rgba(87, 225, 201, .7)); }
+.drone-object span { position: absolute; width: 22px; height: 22px; border: 4px solid #92ede4; border-radius: 50%; }
+.drone-object span:nth-child(1) { top: -29px; left: -29px; }.drone-object span:nth-child(2) { top: -29px; right: -29px; }.drone-object span:nth-child(3) { bottom: -29px; left: -29px; }.drone-object span:nth-child(4) { bottom: -29px; right: -29px; }
+.drone-center { position: absolute; width: 10px; height: 10px; border-radius: 50%; top: calc(50% - 5px); left: calc(50% - 5px); background: #c7fff6; box-shadow: 0 0 15px #77e4df; }
+.visual-reality { background: radial-gradient(circle, #2b2247 0, #19152c 54%, #0c1020); }
+.atom-path { position: absolute; top: 50%; left: 50%; width: 235px; height: 92px; border: 2px solid rgba(190, 155, 255, .66); border-radius: 50%; box-shadow: 0 0 19px rgba(169, 108, 240, .13); }
+.atom-one { transform: translate(-50%, -50%) rotate(0deg); }.atom-two { transform: translate(-50%, -50%) rotate(60deg); }.atom-three { transform: translate(-50%, -50%) rotate(-60deg); }
+.atom-nucleus { position: absolute; width: 27px; height: 27px; border-radius: 50%; background: #d5adff; box-shadow: 0 0 45px 10px rgba(183, 110, 243, .55); top: calc(50% - 13px); left: calc(50% - 13px); }
+
+.skill-list { display: flex; flex-wrap: wrap; gap: 9px; max-width: 500px; }
+.skill-list span { color: #a5becc; padding: 9px 12px; }
+.terminal { border: 1px solid rgba(157, 196, 218, .20); border-radius: 9px; background: #0c1420; box-shadow: 0 32px 75px rgba(0, 0, 0, .24); overflow: hidden; font: 13px/1.8 var(--font-mono); }
+.terminal-header { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; border-bottom: 1px solid var(--line); background: #141e2a; color: #8397a9; font-size: 10px; letter-spacing: .04em; }
+.terminal-lights { display: flex; gap: 6px; }
+.terminal-lights i { width: 8px; height: 8px; display: block; border-radius: 50%; background: #a65d65; }
+.terminal-lights i:nth-child(2) { background: #bea26a; }.terminal-lights i:nth-child(3) { background: #6eac9a; }
+.terminal-body { padding: 25px 28px 31px; }
+.terminal-body p { margin-bottom: 3px; }
+.terminal-prompt { color: #83d6cf; margin-right: 10px; }
+.terminal-output { color: #839caf; padding-left: 22px; }
+.terminal-quote { color: #c2b5f4; margin-bottom: 13px !important; }
+.terminal-cursor { color: #a2e5eb; animation: cursor-blink 1.1s infinite steps(2, start); }
+@keyframes cursor-blink { to { opacity: 0; } }
+.contact-orbit { position: absolute; width: 680px; height: 210px; border: 1px solid rgba(124, 181, 212, .09); border-radius: 50%; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-20deg); pointer-events: none; }
+.footer-star { color: #b7dfe8; margin-left: 10px; }
+
+@media (max-width: 600px) {
+    .eyebrow { font-size: 8px; gap: 9px; letter-spacing: .09em; }
+    .eyebrow-number { margin-left: 0; }
+    .card-visual { height: 205px; }
+    .project-card { padding: 22px 20px; }
+    .card-content h3 { font-size: 23px; }
+    .terminal-body { padding: 21px 16px; font-size: 11px; }
+    .terminal-header { padding: 12px; }
+}
+</file>
+
+<file path="css/layout.css">
+/* Page sections and responsive layout. */
+.page-glow { position: absolute; inset: 0 0 auto; height: 750px; pointer-events: none; background: radial-gradient(ellipse 900px 420px at 75% 0%, rgba(31, 81, 124, .16), transparent 70%); }
+
+.site-header { position: absolute; inset: 0 0 auto; z-index: 20; border-bottom: 1px solid rgba(180, 221, 255, .08); }
+.header-inner { min-height: 92px; display: flex; align-items: center; gap: 42px; }
+.site-nav { display: flex; align-items: center; gap: 32px; margin-left: auto; }
+.header-action { margin-left: 18px; }
+
+.hero { min-height: 790px; min-height: min(900px, 100svh); position: relative; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero-content { position: relative; z-index: 2; padding-top: 115px; pointer-events: none; }
+.hero-content a { pointer-events: auto; }
+.hero-title { display: flex; flex-direction: column; margin: 28px 0 0; width: fit-content; line-height: 1.06; letter-spacing: -0.075em; }
+.title-intro { font-size: clamp(46px, 6.15vw, 89px); font-weight: 600; }
+.title-world { font-size: clamp(45px, 6.15vw, 89px); font-weight: 650; color: var(--accent-bright); text-shadow: 0 0 50px rgba(100, 224, 255, .18); white-space: nowrap; }
+.hero-description { color: #bac5d0; font-size: 17px; line-height: 1.8; width: min(445px, 100%); margin: 35px 0 0; }
+.hero-buttons { display: flex; align-items: center; gap: 12px; margin-top: 38px; }
+.hero-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 145px; gap: 30px; }
+
+.hero-world { position: absolute; right: max(-60px, calc((100vw - 1390px) / 2)); top: 0; bottom: 0; width: 60%; min-width: 700px; z-index: 1; pointer-events: none; }
+#space-canvas { position: absolute; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 1.2s ease; }
+.hero-world.canvas-ready #space-canvas { opacity: 1; }
+.world-fallback { position: absolute; width: min(700px, 80%); top: 50%; left: 50%; transform: translate(-50%, -50%); filter: drop-shadow(0 0 85px rgba(54, 142, 216, .20)); transition: opacity 1s ease; }
+.hero-world.canvas-ready .world-fallback { opacity: 0; }
+.world-glow { position: absolute; width: 760px; height: 760px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(23, 102, 160, .14), rgba(24, 42, 78, .055) 47%, transparent 72%); }
+
+.intro-section { background: #080e17; border-bottom: 1px solid var(--line); }
+.intro-grid { display: grid; grid-template-columns: 1.35fr 1fr; align-items: center; gap: 100px; }
+.intro-copy { padding-top: 30px; color: #98a8b8; font-size: 17px; line-height: 1.9; }
+.intro-copy p:first-child { font-size: 20px; color: #f0f4f8; font-weight: 550; margin-bottom: 20px; }
+.intro-copy p:nth-child(2) { margin-bottom: 26px; }
+
+.projects-section { background: radial-gradient(ellipse at 18% 26%, rgba(34, 65, 98, .1), transparent 48%), #090d15; }
+.section-topline { display: flex; align-items: center; justify-content: space-between; }
+.projects-heading { margin-top: 23px; margin-bottom: 62px; }
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+
+.about-section { border-top: 1px solid var(--line); background: #080e17; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center; }
+.about-description { margin: 32px 0 29px; color: #aab8c5; font-size: 17px; line-height: 1.9; max-width: 490px; }
+
+.contact-section { padding: 137px 0 145px; overflow: hidden; border-top: 1px solid var(--line); background: radial-gradient(ellipse at 50% 110%, rgba(47, 123, 164, .13), transparent 58%), #090d14; text-align: center; }
+.contact-inner { position: relative; }
+.contact-section h2 { font-size: clamp(52px, 7.6vw, 103px); line-height: 1.09; letter-spacing: -.072em; font-weight: 600; margin: 36px 0 24px; }
+.contact-section h2 em { font-style: normal; font-weight: 400; color: var(--accent); }
+.contact-section p:not(.section-label) { font-size: 17px; line-height: 1.7; color: #a5b4c3; margin-bottom: 36px; }
+.contact-section .button { margin: auto; }
+
+.site-footer { border-top: 1px solid var(--line); background: #070a10; }
+.footer-inner { display: flex; justify-content: space-between; gap: 25px; padding-block: 27px; color: #7e91a4; font: 11px/1.7 var(--font-mono); letter-spacing: .11em; }
+
+@media (max-width: 1080px) {
+    .hero-world { right: -130px; opacity: .86; }
+    .hero-bottom { margin-top: 118px; }
+    .about-grid { gap: 55px; }
+    .intro-grid { gap: 58px; }
+}
+
+@media (max-width: 800px) {
+    .header-inner { min-height: 76px; }
+    .header-action { display: none; }
+    .site-nav { position: absolute; left: 0; right: 0; top: 76px; padding: 15px 21px 23px; display: none; flex-direction: column; align-items: stretch; gap: 0; background: #0a111d; border-bottom: 1px solid var(--line); }
+    .site-nav.is-open { display: flex; }
+    .site-nav a { padding: 13px 10px; }
+    .menu-toggle { display: flex; margin-left: auto; }
+
+    .hero { min-height: 860px; align-items: flex-start; }
+    .hero-content { padding-top: 170px; }
+    .hero-world { top: 250px; right: -210px; bottom: -15px; min-width: 690px; width: 750px; opacity: .60; }
+    .world-coordinate, .world-reticle, .world-orbit { display: none; }
+    .title-intro, .title-world { font-size: clamp(42px, 8vw, 66px); }
+    .hero-description { margin-top: 30px; }
+    .hero-bottom { margin-top: 145px; }
+
+    .intro-grid, .about-grid { grid-template-columns: 1fr; gap: 42px; }
+    .intro-copy { padding-top: 0; }
+    .project-grid { gap: 15px; }
+    .projects-heading { margin-bottom: 39px; }
+    .about-description { max-width: 100%; }
+    .footer-inner { flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+    .hero { min-height: 830px; }
+    .hero-content { padding-top: 158px; }
+    .hero-world { top: 320px; right: -300px; opacity: .45; }
+    .hero-title { margin-top: 26px; }
+    .title-intro, .title-world { font-size: clamp(36px, 9vw, 48px); }
+    .hero-description { font-size: 15px; width: 360px; max-width: 100%; line-height: 1.7; }
+    .hero-buttons { align-items: flex-start; flex-direction: column; gap: 10px; margin-top: 28px; }
+    .hero-buttons .button { min-width: 228px; }
+    .hero-bottom { margin-top: 130px; }
+    .hero-status { display: none; }
+    .section-aside { display: none; }
+    .project-grid { grid-template-columns: 1fr; }
+    .contact-section { padding-block: 100px; }
+    .contact-section h2 { font-size: clamp(45px, 11vw, 67px); }
+}
+</file>
+
+<file path="css/terminal.css">
+.terminal-body.interactive-terminal {
+    height: 340px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: text;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.terminal-output-area {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.terminal-line {
+    min-height: 1.7em;
+    color: #b8c5d6;
+}
+
+.terminal-command {
+    color: #e8f4ff;
+}
+
+.terminal-title {
+    color: #6de5ff;
+    font-weight: bold;
+}
+
+.terminal-error {
+    color: #ff7777;
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.terminal-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e8f4ff;
+    font: inherit;
+    caret-color: #6de5ff;
+}
+
+.terminal-input::selection {
+    background: #355a70;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: #344455;
+    border-radius: 4px;
+}
+</file>
+
+<file path="js/space/planet.js">
+import * as THREE from "./three.js";
+
+// Creates the planet, its blue atmosphere, and two orbit lines.
+export function createPlanet() {
+    const planetGroup = new THREE.Group();
+    const textureLoader = new THREE.TextureLoader();
+
+    const colorMap = textureLoader.load("./assets/world-texture.webp");
+    colorMap.colorSpace = THREE.SRGBColorSpace;
+
+    const cityLights = textureLoader.load("./assets/world-lights.webp");
+    cityLights.colorSpace = THREE.SRGBColorSpace;
+
+    const planet = new THREE.Mesh(
+        new THREE.SphereGeometry(2, 72, 72),
+        new THREE.MeshStandardMaterial({
+            map: colorMap,
+            roughness: 0.95,
+            metalness: 0,
+            emissive: 0x7ea6d6,
+            emissiveMap: cityLights,
+            emissiveIntensity: 0.60
+        })
+    );
+    planet.rotation.y = -0.6;
+    planet.rotation.z = -0.12;
+    planetGroup.add(planet);
+
+    // The glow is brightest at the edge of the sphere (the atmosphere).
+    const atmosphere = new THREE.Mesh(
+        new THREE.SphereGeometry(2.15, 64, 64),
+        new THREE.ShaderMaterial({
+            transparent: true,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            vertexShader: `
+                varying vec3 surfaceNormal;
+                varying vec3 eyeDirection;
+
+                void main() {
+                    vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
+                    surfaceNormal = normalize(normalMatrix * normal);
+                    eyeDirection = normalize(-viewPosition.xyz);
+                    gl_Position = projectionMatrix * viewPosition;
+                }
+            `,
+            fragmentShader: `
+                varying vec3 surfaceNormal;
+                varying vec3 eyeDirection;
+
+                void main() {
+                    float glow = pow(0.85 - dot(surfaceNormal, eyeDirection), 3.0);
+                    gl_FragColor = vec4(0.22, 0.66, 1.0, glow * 0.36);
+                }
+            `
+        })
+    );
+    planetGroup.add(atmosphere);
+
+    const orbitOne = createOrbit(2.75, 0.16, -0.44);
+    const orbitTwo = createOrbit(2.91, -0.4, 0.35);
+    planetGroup.add(orbitOne, orbitTwo);
+
+    const satellite = new THREE.Mesh(
+        new THREE.SphereGeometry(0.045, 12, 12),
+        new THREE.MeshBasicMaterial({ color: 0xa5e5ff })
+    );
+    satellite.position.set(2.75, 0, 0);
+    orbitOne.add(satellite);
+
+    return {
+        group: planetGroup,
+        update(delta) {
+            planet.rotation.y += delta * 0.06;
+            orbitOne.rotation.z += delta * 0.04;
+            orbitTwo.rotation.y += delta * 0.025;
+        }
+    };
+}
+
+function createOrbit(radius, tiltX, tiltY) {
+    const points = [];
+
+    for (let index = 0; index <= 180; index++) {
+        const angle = index / 180 * Math.PI * 2;
+        points.push(new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius, 0));
+    }
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: 0x70b2da, transparent: true, opacity: 0.27 });
+    const orbit = new THREE.LineLoop(geometry, material);
+    orbit.rotation.x = tiltX;
+    orbit.rotation.y = tiltY;
+    return orbit;
+}
+</file>
+
+<file path="js/space/scene.js">
+import * as THREE from "./three.js";
+import { createPlanet } from "./planet.js";
+import { createStars } from "./stars.js";
+
+// Sets up the camera, lights, renderer, and animation loop.
+export function startSpaceScene() {
+    const canvas = document.getElementById("space-canvas");
+    const container = document.querySelector(".hero-world");
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0, 9.2);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const sunlight = new THREE.DirectionalLight(0xc7eaff, 2.35);
+    sunlight.position.set(-4, 4, 6);
+    scene.add(sunlight);
+    scene.add(new THREE.AmbientLight(0x315379, 0.7));
+
+    const world = createPlanet();
+    scene.add(world.group);
+    scene.add(createStars());
+
+    function resizeScene() {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+    }
+
+    resizeScene();
+    window.addEventListener("resize", resizeScene);
+    container.classList.add("canvas-ready");
+
+    const clock = new THREE.Clock();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function animate() {
+        const delta = clock.getDelta();
+        if (!reducedMotion) world.update(delta);
+        renderer.render(scene, camera);
+        if (!reducedMotion) requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+</file>
+
+<file path="js/space/stars.js">
+import * as THREE from "./three.js";
+
+// A cloud of tiny points surrounding the world.
+export function createStars() {
+    const numberOfStars = 650;
+    const positions = [];
+
+    for (let i = 0; i < numberOfStars; i++) {
+        const x = (Math.random() - 0.5) * 30;
+        const y = (Math.random() - 0.5) * 23;
+        const z = (Math.random() - 0.5) * 20 - 4;
+        positions.push(x, y, z);
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({
+        color: 0xb1d5ff,
+        size: 0.035,
+        transparent: true,
+        opacity: 0.8,
+        sizeAttenuation: true
+    });
+
+    return new THREE.Points(geometry, material);
+}
+</file>
+
+<file path="js/space/three.js">
+// Three.js is loaded directly as an ES module: no npm, build step, or bundler.
+// For a fully offline version, download this module and replace the URL below
+// with the path to your local copy.
+export * from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+</file>
+
+<file path="js/main.js">
+// Start the site features that do not depend on Three.js.
+import { setupNavigation } from "./navigation.js";
+import { startWelcomeAnimation } from "./welcome.js";
+
+setupNavigation();
+startWelcomeAnimation();
+
+// Load the 3D scene separately. The static globe is the fallback if it fails.
+import("./space/scene.js")
+    .then((space) => space.startSpaceScene())
+    .catch(() => console.info("Showing the static world (Three.js unavailable)."));
+</file>
+
+<file path="js/navigation.js">
+// Opens and closes the mobile menu.
+export function setupNavigation() {
+    const menuButton = document.querySelector(".menu-toggle");
+    const navigation = document.querySelector(".site-nav");
+
+    menuButton.addEventListener("click", () => {
+        const menuIsOpen = navigation.classList.toggle("is-open");
+        menuButton.setAttribute("aria-expanded", String(menuIsOpen));
+        menuButton.setAttribute("aria-label", menuIsOpen ? "Close navigation" : "Open navigation");
+    });
+
+    for (const link of navigation.querySelectorAll("a")) {
+        link.addEventListener("click", () => {
+            navigation.classList.remove("is-open");
+            menuButton.setAttribute("aria-expanded", "false");
+            menuButton.setAttribute("aria-label", "Open navigation");
+        });
+    }
+}
+</file>
+
+<file path="js/terminal.js">
+class Terminal {
+    constructor(element) {
+        this.element = element;
+        this.history = [];
+        this.historyIndex = 0;
+
+        this.files = {
+            "about.txt": "IsoDev — developer, builder, explorer.",
+            "mission.txt": "Keep learning. Keep building.",
+            "contact.txt": "Find me through IsolatedWorld.",
+        };
+
+        this.projects = {
+            satarengine: "A web-native multiplayer game engine and creator platform.",
+            isovr: "A custom Android VR ecosystem with 6DoF tracking.",
+            novex: "An autonomous multi-drone platform.",
+            "reality-engine": "An experimental physics-based simulation engine."
+        };
+
+        this.commands = {
+            help: () => this.help(),
+            clear: () => this.clear(),
+            whoami: () => this.print("IsoDev / builder / explorer"),
+            pwd: () => this.print("/home/isodev"),
+            ls: (args) => this.list(args),
+            cat: (args) => this.cat(args),
+            echo: (args) => this.print(args.join(" ")),
+            date: () => this.print(new Date().toString()),
+            projects: () => this.showProjects(),
+            neofetch: () => this.neofetch(),
+            history: () => this.showHistory(),
+            open: (args) => this.openProject(args),
+        };
+
+        this.initialize();
+    }
+
+    initialize() {
+        this.element.innerHTML = "";
+        this.element.classList.add("interactive-terminal");
+
+        this.output = document.createElement("div");
+        this.output.className = "terminal-output-area";
+
+        this.inputLine = document.createElement("div");
+        this.inputLine.className = "terminal-input-line";
+
+        this.prompt = document.createElement("span");
+        this.prompt.className = "terminal-prompt";
+        this.prompt.textContent = "$";
+
+        this.input = document.createElement("input");
+        this.input.className = "terminal-input";
+        this.input.type = "text";
+        this.input.autocomplete = "off";
+        this.input.spellcheck = false;
+        this.input.setAttribute("aria-label", "Terminal command");
+
+        this.inputLine.append(this.prompt, this.input);
+        this.element.append(this.output, this.inputLine);
+
+        this.input.addEventListener("keydown", (event) => {
+            this.handleKey(event);
+        });
+
+        this.element.addEventListener("click", () => {
+            this.input.focus();
+        });
+
+        this.print("IsolatedWorld Terminal v1.0");
+        this.print("Welcome, explorer.");
+        this.print("");
+
+        this.execute("help");
+    }
+
+    print(message = "", className = "") {
+        const line = document.createElement("div");
+        line.className = "terminal-line";
+
+        if (className) {
+            line.classList.add(className);
+        }
+
+        line.textContent = message;
+        this.output.appendChild(line);
+
+        this.element.scrollTop = this.element.scrollHeight;
+    }
+
+    execute(commandLine) {
+        const text = commandLine.trim();
+
+        if (!text) return;
+
+        this.print("$ " + text, "terminal-command");
+
+        this.history.push(text);
+        this.historyIndex = this.history.length;
+
+        const parts = text.split(/\s+/);
+        const command = parts.shift().toLowerCase();
+
+        if (this.commands[command]) {
+            this.commands[command](parts);
+        } else {
+            this.print(
+                `Command not found: ${command}. Type 'help'.`,
+                "terminal-error"
+            );
+        }
+    }
+
+    handleKey(event) {
+        if (event.key === "Enter") {
+            const command = this.input.value;
+            this.input.value = "";
+            this.execute(command);
+        }
+
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+
+            if (this.historyIndex > 0) {
+                this.historyIndex--;
+            }
+
+            this.input.value = this.history[this.historyIndex] || "";
+        }
+
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+
+            if (this.historyIndex < this.history.length) {
+                this.historyIndex++;
+            }
+
+            this.input.value = this.history[this.historyIndex] || "";
+        }
+
+        if (event.key === "Tab") {
+            event.preventDefault();
+            this.autocomplete();
+        }
+    }
+
+    autocomplete() {
+        const text = this.input.value.toLowerCase();
+
+        if (text.includes(" ")) return;
+
+        const matches = Object.keys(this.commands).filter(
+            command => command.startsWith(text)
+        );
+
+        if (matches.length === 1) {
+            this.input.value = matches[0] + " ";
+        }
+    }
+
+    help() {
+        this.print("");
+        this.print("AVAILABLE COMMANDS", "terminal-title");
+        this.print("------------------------------");
+        this.print("help       Show available commands");
+        this.print("clear      Clear the terminal");
+        this.print("whoami     Display user information");
+        this.print("pwd        Show current directory");
+        this.print("ls         List files and projects");
+        this.print("cat        Read a text file");
+        this.print("echo       Print a message");
+        this.print("date       Display current date");
+        this.print("projects   Explore my projects");
+        this.print("open       Open a project website");
+        this.print("neofetch   Display system information");
+        this.print("history    Show command history");
+        this.print("");
+        this.print("TIP: Try 'cat mission.txt' or 'projects'.");
+        this.print("");
+    }
+
+    clear() {
+        this.output.innerHTML = "";
+    }
+
+    list(args) {
+        const directory = args[0] || ".";
+
+        if (directory === "." || directory === "~") {
+            this.print("about.txt");
+            this.print("mission.txt");
+            this.print("contact.txt");
+            this.print("worlds/");
+            return;
+        }
+
+        if (directory === "worlds" || directory === "worlds/") {
+            Object.keys(this.projects).forEach(name => {
+                this.print(name + "/");
+            });
+            return;
+        }
+
+        this.print(`ls: cannot access '${directory}'`, "terminal-error");
+    }
+
+    cat(args) {
+        const filename = args[0];
+
+        if (!filename) {
+            this.print("Usage: cat <filename>");
+            return;
+        }
+
+        if (this.files[filename] !== undefined) {
+            this.print(this.files[filename]);
+        } else {
+            this.print(`cat: ${filename}: No such file`, "terminal-error");
+        }
+    }
+
+    showProjects() {
+        this.print("");
+        this.print("MY WORLDS", "terminal-title");
+
+        for (const [name, description] of Object.entries(this.projects)) {
+            this.print(`${name}/ — ${description}`);
+        }
+
+        this.print("");
+    }
+
+    openProject(args) {
+        const project = args[0]?.toLowerCase();
+
+        const links = {
+            satarengine: "https://satarengine.com"
+        };
+
+        if (!project) {
+            this.print("Usage: open <project>");
+            return;
+        }
+
+        if (!links[project]) {
+            this.print("No public URL configured for this project.");
+            return;
+        }
+
+        this.print("Opening " + project + "...");
+        window.open(links[project], "_blank", "noopener,noreferrer");
+    }
+
+    neofetch() {
+        this.print("");
+        this.print("       *       IsoDev@IsolatedWorld");
+        this.print("      /|\\      --------------------");
+        this.print("     / | \\     OS: IsolatedWorld");
+        this.print("    /  |  \\    Shell: worldsh 1.0");
+        this.print("   /___|___\\   Focus: Engineering");
+        this.print("                Projects: " + Object.keys(this.projects).length);
+        this.print("                Status: Building");
+        this.print("");
+    }
+
+    showHistory() {
+        this.history.forEach((command, index) => {
+            this.print(`${index + 1}  ${command}`);
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const terminalBody = document.querySelector(".terminal-body");
+
+    if (terminalBody) {
+        new Terminal(terminalBody);
+    }
+});
+</file>
+
+<file path="js/welcome.js">
+// Switches between the three welcome messages.
+const messages = ["IsolatedWorld", "######World", "Isolated####"];
+
+export function startWelcomeAnimation() {
+    const word = document.getElementById("changing-world");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) return;
+
+    let messageIndex = 0;
+
+    setInterval(() => {
+        word.classList.add("is-changing");
+
+        setTimeout(() => {
+            messageIndex = (messageIndex + 1) % messages.length;
+            word.textContent = messages[messageIndex];
+            word.classList.remove("is-changing");
+        }, 240);
+    }, 3300);
+}
+</file>
+
+<file path="public/index.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a13">
+    <meta name="description" content="IsolatedWorld is IsoDev's personal universe of game engines, virtual reality, robotics, and experiments.">
+    <title>IsolatedWorld — A universe in progress</title>
+
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/terminal.css">
+    <script type="module" src="/js/main.js"></script>
+    <script src="/js/terminal.js" defer></script>
+</head>
+<body>
+    <div class="page-glow" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <div class="header-inner container">
+            <a class="brand" href="#home" aria-label="IsolatedWorld home">
+                <span class="brand-mark" aria-hidden="true"><span></span></span>
+                <span>ISOLATED<span class="brand-light">WORLD</span></span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false">
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+                <a href="#home">Home</a>
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <a class="header-action" href="#projects">Explore the world <span aria-hidden="true">↗</span></a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home" aria-labelledby="hero-title">
+            <div class="hero-noise" aria-hidden="true"></div>
+
+            <div class="hero-world" aria-hidden="true">
+                <div class="world-glow"></div>
+                <img class="world-fallback" src="/assets/world-poster.webp" alt="">
+                <canvas id="space-canvas"></canvas>
+                <div class="world-orbit orbit-one"></div>
+                <div class="world-orbit orbit-two"></div>
+                <div class="world-coordinate coordinate-top">00° 00′ 00″ / ORIGIN</div>
+                <div class="world-coordinate coordinate-bottom">PLANET 001 <span class="coordinate-line"></span> ISOLATEDWORLD</div>
+                <div class="world-reticle"></div>
+            </div>
+
+            <div class="container hero-content">
+                <div class="eyebrow"><span class="live-dot"></span> TRANSMISSION FROM AN ISOLATED MIND <span class="eyebrow-number">// 001</span></div>
+
+                <h1 class="hero-title" id="hero-title">
+                    <span class="title-intro">Welcome to</span>
+                    <span class="title-world" id="changing-world">IsolatedWorld</span>
+                    <span class="title-underline" aria-hidden="true"></span>
+                </h1>
+
+                <p class="hero-description">My own corner of the universe. A place for worlds, engines, machines, and ideas that are a little too big to leave on paper.</p>
+
+                <div class="hero-buttons">
+                    <a class="button button-primary" href="#projects">Explore my projects <span aria-hidden="true">↗</span></a>
+                    <a class="button button-secondary" href="#about">Who built this? <span aria-hidden="true">↓</span></a>
+                </div>
+
+                <div class="hero-bottom">
+                    <div class="hero-scroll"><span class="scroll-track"></span><span>SCROLL TO EXPLORE</span></div>
+                    <div class="hero-status">STATUS <span>●</span> FOREVER UNDER CONSTRUCTION</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="intro-section section-padding" id="universe">
+            <div class="container intro-grid">
+                <div>
+                    <p class="section-label"><span>01 /</span> THE UNIVERSE</p>
+                    <h2 class="display-heading">Curiosity has<br><em>no boundaries.</em></h2>
+                </div>
+                <div class="intro-copy">
+                    <p>Some people collect things. I build them.</p>
+                    <p>Virtual worlds, game platforms, AI experiments, robotics, and the systems connecting everything together. IsolatedWorld is where all those projects live.</p>
+                    <a class="text-link" href="#projects">TAKE A LOOK AROUND <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-section section-padding" id="projects">
+            <div class="container">
+                <div class="section-topline">
+                    <p class="section-label"><span>02 /</span> SELECTED PROJECTS</p>
+                    <p class="section-aside">IDEAS IN DIFFERENT ORBITS ↗</p>
+                </div>
+                <h2 class="display-heading projects-heading">Worlds under<br><em>construction.</em></h2>
+
+                <div class="project-grid">
+                    <article class="project-card project-featured">
+                        <div class="card-top"><span class="card-index">01 / GAME PLATFORM</span><span class="card-symbol">✳</span></div>
+                        <div class="card-visual visual-engine" aria-hidden="true">
+                            <div class="engine-grid"></div>
+                            <div class="engine-cube cube-back"></div>
+                            <div class="engine-cube cube-front"></div>
+                            <div class="engine-cross">+</div>
+                            <span class="visual-caption">BUILD / CREATE / CONNECT</span>
+                        </div>
+                        <div class="card-content">
+                            <div><h3>SatarEngine</h3><p>A web-native game platform for building, sharing, and playing worlds together.</p></div>
+                            <a class="round-link" href="https://satarengine.com" target="_blank" rel="noopener noreferrer" aria-label="Visit SatarEngine website">↗</a>
+                        </div>
+                        <div class="card-tags"><span>WEBGL</span><span>MULTIPLAYER</span><span>CREATOR TOOLS</span></div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="card-top"><span class="card-index">02 / EXTENDED REALITY</span><span class="card-symbol">◉</span></div>
+                        <div class="card-visual visual-vr" aria-hidden="true">
+                            <div class="vr-sun"></div>
+                            <div class="vr-landscape landscape-back"></div>
+                            <div class="vr-landscape landscape-front"></div>
+                            <div class="vr-frame"><div class="vr-lens"></div><div class="vr-lens"></div></div>
+                            <span class="visual-caption">REALITY IS OPTIONAL</span>
+                        </div>
+                        <div class="card-content"><div><h3>IsoVR</h3><p>Mobile virtual reality, spatial interfaces, and custom 6DoF experiments.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+                        <div class="card-tags"><span>6DOF</span><span>ANDROID</span><span>XR</span></div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="card-top"><span class="card-index">03 / ROBOTICS</span><span class="card-symbol">✺</span></div>
+                        <div class="card-visual visual-drone" aria-hidden="true">
+                            <div class="drone-radar radar-outer"></div>
+                            <div class="drone-radar radar-inner"></div>
+                            <div class="drone-object"><span></span><span></span><span></span><span></span></div>
+                            <div class="drone-center"></div>
+                            <span class="visual-caption">AUTONOMY / IN MOTION</span>
+                        </div>
+                        <div class="card-content"><div><h3>Novex</h3><p>An experimental autonomous drone ecosystem, from flight systems to mapping.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+                        <div class="card-tags"><span>EMBEDDED</span><span>DRONES</span><span>ROBOTICS</span></div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="card-top"><span class="card-index">04 / SIMULATION</span><span class="card-symbol">⌘</span></div>
+                        <div class="card-visual visual-reality" aria-hidden="true">
+                            <div class="atom-path atom-one"></div>
+                            <div class="atom-path atom-two"></div>
+                            <div class="atom-path atom-three"></div>
+                            <div class="atom-nucleus"></div>
+                            <span class="visual-caption">FROM THE FUNDAMENTALS UP</span>
+                        </div>
+                        <div class="card-content"><div><h3>Reality Engine</h3><p>Exploring how complex realities could emerge from simple physical rules.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+                        <div class="card-tags"><span>PHYSICS</span><span>SIMULATION</span><span>R&amp;D</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section section-padding" id="about">
+            <div class="container about-grid">
+                <div>
+                    <p class="section-label"><span>03 /</span> THE PERSON BEHIND IT</p>
+                    <h2 class="display-heading">One developer.<br><em>Infinite rabbit holes.</em></h2>
+                    <p class="about-description">I'm IsoDev. I like figuring out how things work, then building my own version from the ground up. One week it's a game engine. The next it's a circuit board. There is always another idea.</p>
+                    <div class="skill-list"><span>GAME ENGINES</span><span>VR / XR</span><span>ARTIFICIAL INTELLIGENCE</span><span>EMBEDDED SYSTEMS</span><span>GRAPHICS</span><span>NETWORKING</span></div>
+                </div>
+
+                <div class="terminal">
+                    <div class="terminal-header"><span class="terminal-lights"><i></i><i></i><i></i></span><span>isodev@isolatedworld ~</span><span>⌁</span></div>
+                    <div class="terminal-body">
+                        <p><span class="terminal-prompt">$</span> whoami</p>
+                        <p class="terminal-output">IsoDev / builder / explorer</p>
+                        <p><span class="terminal-prompt">$</span> ls ~/worlds</p>
+                        <p class="terminal-output">📁 satarengine/</p>
+                        <p class="terminal-output">📁 isovr/</p>
+                        <p class="terminal-output">📁 novex/</p>
+                        <p class="terminal-output">📁 reality-engine/</p>
+                        <p><span class="terminal-prompt">$</span> cat mission.txt</p>
+                        <p class="terminal-output terminal-quote">"Keep learning. Keep building."</p>
+                        <p><span class="terminal-prompt">$</span> <span class="terminal-cursor">▋</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <div class="container contact-inner">
+                <div class="contact-orbit" aria-hidden="true"></div>
+                <p class="section-label"><span>04 /</span> END OF TRANSMISSION</p>
+                <h2>There is always<br><em>more to explore.</em></h2>
+                <p>Thanks for visiting my little part of the internet. The world is still expanding.</p>
+                <a class="button button-primary" href="#home">Back to the beginning <span aria-hidden="true">↑</span></a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner"><span>© 2026 ISOLATEDWORLD / ISODEV</span><span>BUILT ON EARTH. AIMED ELSEWHERE. <span class="footer-star">✳</span></span></div>
+    </footer>
+</body>
+</html>
+</file>
+
+<file path=".gitignore">
+node_modules/
+</file>
+
+<file path="index.js">
+const express = require('express');
+const dotenv = require('dotenv');
+const path = require('node:path');
+
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Serve the website
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve static resources
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+
+// API routes
+app.get('/hi', (req, res) => {
+    res.send('Hello World!');
+});
+
+// Start server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
+</file>
+
+<file path="LICENSE">
+GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+  The licenses for most software and other practical works are designed
+to take away your freedom to share and change the works.  By contrast,
+the GNU General Public License is intended to guarantee your freedom to
+share and change all versions of a program--to make sure it remains free
+software for all its users.  We, the Free Software Foundation, use the
+GNU General Public License for most of our software; it applies also to
+any other work released this way by its authors.  You can apply it to
+your programs, too.
+
+  When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+them if you wish), that you receive source code or can get it if you
+want it, that you can change the software or use pieces of it in new
+free programs, and that you know you can do these things.
+
+  To protect your rights, we need to prevent others from denying you
+these rights or asking you to surrender the rights.  Therefore, you have
+certain responsibilities if you distribute copies of the software, or if
+you modify it: responsibilities to respect the freedom of others.
+
+  For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must pass on to the recipients the same
+freedoms that you received.  You must make sure that they, too, receive
+or can get the source code.  And you must show them these terms so they
+know their rights.
+
+  Developers that use the GNU GPL protect your rights with two steps:
+(1) assert copyright on the software, and (2) offer you this License
+giving you legal permission to copy, distribute and/or modify it.
+
+  For the developers' and authors' protection, the GPL clearly explains
+that there is no warranty for this free software.  For both users' and
+authors' sake, the GPL requires that modified versions be marked as
+changed, so that their problems will not be attributed erroneously to
+authors of previous versions.
+
+  Some devices are designed to deny users access to install or run
+modified versions of the software inside them, although the manufacturer
+can do so.  This is fundamentally incompatible with the aim of
+protecting users' freedom to change the software.  The systematic
+pattern of such abuse occurs in the area of products for individuals to
+use, which is precisely where it is most unacceptable.  Therefore, we
+have designed this version of the GPL to prohibit the practice for those
+products.  If such problems arise substantially in other domains, we
+stand ready to extend this provision to those domains in future versions
+of the GPL, as needed to protect the freedom of users.
+
+  Finally, every program is threatened constantly by software patents.
+States should not allow patents to restrict development and use of
+software on general-purpose computers, but in those that do, we wish to
+avoid the special danger that patents applied to a free program could
+make it effectively proprietary.  To prevent this, the GPL assures that
+patents cannot be used to render the program non-free.
+
+  The precise terms and conditions for copying, distribution and
+modification follow.
+
+                       TERMS AND CONDITIONS
+
+  0. Definitions.
+
+  "This License" refers to version 3 of the GNU General Public License.
+
+  "Copyright" also means copyright-like laws that apply to other kinds of
+works, such as semiconductor masks.
+
+  "The Program" refers to any copyrightable work licensed under this
+License.  Each licensee is addressed as "you".  "Licensees" and
+"recipients" may be individuals or organizations.
+
+  To "modify" a work means to copy from or adapt all or part of the work
+in a fashion requiring copyright permission, other than the making of an
+exact copy.  The resulting work is called a "modified version" of the
+earlier work or a work "based on" the earlier work.
+
+  A "covered work" means either the unmodified Program or a work based
+on the Program.
+
+  To "propagate" a work means to do anything with it that, without
+permission, would make you directly or secondarily liable for
+infringement under applicable copyright law, except executing it on a
+computer or modifying a private copy.  Propagation includes copying,
+distribution (with or without modification), making available to the
+public, and in some countries other activities as well.
+
+  To "convey" a work means any kind of propagation that enables other
+parties to make or receive copies.  Mere interaction with a user through
+a computer network, with no transfer of a copy, is not conveying.
+
+  An interactive user interface displays "Appropriate Legal Notices"
+to the extent that it includes a convenient and prominently visible
+feature that (1) displays an appropriate copyright notice, and (2)
+tells the user that there is no warranty for the work (except to the
+extent that warranties are provided), that licensees may convey the
+work under this License, and how to view a copy of this License.  If
+the interface presents a list of user commands or options, such as a
+menu, a prominent item in the list meets this criterion.
+
+  1. Source Code.
+
+  The "source code" for a work means the preferred form of the work
+for making modifications to it.  "Object code" means any non-source
+form of a work.
+
+  A "Standard Interface" means an interface that either is an official
+standard defined by a recognized standards body, or, in the case of
+interfaces specified for a particular programming language, one that
+is widely used among developers working in that language.
+
+  The "System Libraries" of an executable work include anything, other
+than the work as a whole, that (a) is included in the normal form of
+packaging a Major Component, but which is not part of that Major
+Component, and (b) serves only to enable use of the work with that
+Major Component, or to implement a Standard Interface for which an
+implementation is available to the public in source code form.  A
+"Major Component", in this context, means a major essential component
+(kernel, window system, and so on) of the specific operating system
+(if any) on which the executable work runs, or a compiler used to
+produce the work, or an object code interpreter used to run it.
+
+  The "Corresponding Source" for a work in object code form means all
+the source code needed to generate, install, and (for an executable
+work) run the object code and to modify the work, including scripts to
+control those activities.  However, it does not include the work's
+System Libraries, or general-purpose tools or generally available free
+programs which are used unmodified in performing those activities but
+which are not part of the work.  For example, Corresponding Source
+includes interface definition files associated with source files for
+the work, and the source code for shared libraries and dynamically
+linked subprograms that the work is specifically designed to require,
+such as by intimate data communication or control flow between those
+subprograms and other parts of the work.
+
+  The Corresponding Source need not include anything that users
+can regenerate automatically from other parts of the Corresponding
+Source.
+
+  The Corresponding Source for a work in source code form is that
+same work.
+
+  2. Basic Permissions.
+
+  All rights granted under this License are granted for the term of
+copyright on the Program, and are irrevocable provided the stated
+conditions are met.  This License explicitly affirms your unlimited
+permission to run the unmodified Program.  The output from running a
+covered work is covered by this License only if the output, given its
+content, constitutes a covered work.  This License acknowledges your
+rights of fair use or other equivalent, as provided by copyright law.
+
+  You may make, run and propagate covered works that you do not
+convey, without conditions so long as your license otherwise remains
+in force.  You may convey covered works to others for the sole purpose
+of having them make modifications exclusively for you, or provide you
+with facilities for running those works, provided that you comply with
+the terms of this License in conveying all material for which you do
+not control copyright.  Those thus making or running the covered works
+for you must do so exclusively on your behalf, under your direction
+and control, on terms that prohibit them from making any copies of
+your copyrighted material outside their relationship with you.
+
+  Conveying under any other circumstances is permitted solely under
+the conditions stated below.  Sublicensing is not allowed; section 10
+makes it unnecessary.
+
+  3. Protecting Users' Legal Rights From Anti-Circumvention Law.
+
+  No covered work shall be deemed part of an effective technological
+measure under any applicable law fulfilling obligations under article
+11 of the WIPO copyright treaty adopted on 20 December 1996, or
+similar laws prohibiting or restricting circumvention of such
+measures.
+
+  When you convey a covered work, you waive any legal power to forbid
+circumvention of technological measures to the extent such circumvention
+is effected by exercising rights under this License with respect to
+the covered work, and you disclaim any intention to limit operation or
+modification of the work as a means of enforcing, against the work's
+users, your or third parties' legal rights to forbid circumvention of
+technological measures.
+
+  4. Conveying Verbatim Copies.
+
+  You may convey verbatim copies of the Program's source code as you
+receive it, in any medium, provided that you conspicuously and
+appropriately publish on each copy an appropriate copyright notice;
+keep intact all notices stating that this License and any
+non-permissive terms added in accord with section 7 apply to the code;
+keep intact all notices of the absence of any warranty; and give all
+recipients a copy of this License along with the Program.
+
+  You may charge any price or no price for each copy that you convey,
+and you may offer support or warranty protection for a fee.
+
+  5. Conveying Modified Source Versions.
+
+  You may convey a work based on the Program, or the modifications to
+produce it from the Program, in the form of source code under the
+terms of section 4, provided that you also meet all of these conditions:
+
+    a) The work must carry prominent notices stating that you modified
+    it, and giving a relevant date.
+
+    b) The work must carry prominent notices stating that it is
+    released under this License and any conditions added under section
+    7.  This requirement modifies the requirement in section 4 to
+    "keep intact all notices".
+
+    c) You must license the entire work, as a whole, under this
+    License to anyone who comes into possession of a copy.  This
+    License will therefore apply, along with any applicable section 7
+    additional terms, to the whole of the work, and all its parts,
+    regardless of how they are packaged.  This License gives no
+    permission to license the work in any other way, but it does not
+    invalidate such permission if you have separately received it.
+
+    d) If the work has interactive user interfaces, each must display
+    Appropriate Legal Notices; however, if the Program has interactive
+    interfaces that do not display Appropriate Legal Notices, your
+    work need not make them do so.
+
+  A compilation of a covered work with other separate and independent
+works, which are not by their nature extensions of the covered work,
+and which are not combined with it such as to form a larger program,
+in or on a volume of a storage or distribution medium, is called an
+"aggregate" if the compilation and its resulting copyright are not
+used to limit the access or legal rights of the compilation's users
+beyond what the individual works permit.  Inclusion of a covered work
+in an aggregate does not cause this License to apply to the other
+parts of the aggregate.
+
+  6. Conveying Non-Source Forms.
+
+  You may convey a covered work in object code form under the terms
+of sections 4 and 5, provided that you also convey the
+machine-readable Corresponding Source under the terms of this License,
+in one of these ways:
+
+    a) Convey the object code in, or embodied in, a physical product
+    (including a physical distribution medium), accompanied by the
+    Corresponding Source fixed on a durable physical medium
+    customarily used for software interchange.
+
+    b) Convey the object code in, or embodied in, a physical product
+    (including a physical distribution medium), accompanied by a
+    written offer, valid for at least three years and valid for as
+    long as you offer spare parts or customer support for that product
+    model, to give anyone who possesses the object code either (1) a
+    copy of the Corresponding Source for all the software in the
+    product that is covered by this License, on a durable physical
+    medium customarily used for software interchange, for a price no
+    more than your reasonable cost of physically performing this
+    conveying of source, or (2) access to copy the
+    Corresponding Source from a network server at no charge.
+
+    c) Convey individual copies of the object code with a copy of the
+    written offer to provide the Corresponding Source.  This
+    alternative is allowed only occasionally and noncommercially, and
+    only if you received the object code with such an offer, in accord
+    with subsection 6b.
+
+    d) Convey the object code by offering access from a designated
+    place (gratis or for a charge), and offer equivalent access to the
+    Corresponding Source in the same way through the same place at no
+    further charge.  You need not require recipients to copy the
+    Corresponding Source along with the object code.  If the place to
+    copy the object code is a network server, the Corresponding Source
+    may be on a different server (operated by you or a third party)
+    that supports equivalent copying facilities, provided you maintain
+    clear directions next to the object code saying where to find the
+    Corresponding Source.  Regardless of what server hosts the
+    Corresponding Source, you remain obligated to ensure that it is
+    available for as long as needed to satisfy these requirements.
+
+    e) Convey the object code using peer-to-peer transmission, provided
+    you inform other peers where the object code and Corresponding
+    Source of the work are being offered to the general public at no
+    charge under subsection 6d.
+
+  A separable portion of the object code, whose source code is excluded
+from the Corresponding Source as a System Library, need not be
+included in conveying the object code work.
+
+  A "User Product" is either (1) a "consumer product", which means any
+tangible personal property which is normally used for personal, family,
+or household purposes, or (2) anything designed or sold for incorporation
+into a dwelling.  In determining whether a product is a consumer product,
+doubtful cases shall be resolved in favor of coverage.  For a particular
+product received by a particular user, "normally used" refers to a
+typical or common use of that class of product, regardless of the status
+of the particular user or of the way in which the particular user
+actually uses, or expects or is expected to use, the product.  A product
+is a consumer product regardless of whether the product has substantial
+commercial, industrial or non-consumer uses, unless such uses represent
+the only significant mode of use of the product.
+
+  "Installation Information" for a User Product means any methods,
+procedures, authorization keys, or other information required to install
+and execute modified versions of a covered work in that User Product from
+a modified version of its Corresponding Source.  The information must
+suffice to ensure that the continued functioning of the modified object
+code is in no case prevented or interfered with solely because
+modification has been made.
+
+  If you convey an object code work under this section in, or with, or
+specifically for use in, a User Product, and the conveying occurs as
+part of a transaction in which the right of possession and use of the
+User Product is transferred to the recipient in perpetuity or for a
+fixed term (regardless of how the transaction is characterized), the
+Corresponding Source conveyed under this section must be accompanied
+by the Installation Information.  But this requirement does not apply
+if neither you nor any third party retains the ability to install
+modified object code on the User Product (for example, the work has
+been installed in ROM).
+
+  The requirement to provide Installation Information does not include a
+requirement to continue to provide support service, warranty, or updates
+for a work that has been modified or installed by the recipient, or for
+the User Product in which it has been modified or installed.  Access to a
+network may be denied when the modification itself materially and
+adversely affects the operation of the network or violates the rules and
+protocols for communication across the network.
+
+  Corresponding Source conveyed, and Installation Information provided,
+in accord with this section must be in a format that is publicly
+documented (and with an implementation available to the public in
+source code form), and must require no special password or key for
+unpacking, reading or copying.
+
+  7. Additional Terms.
+
+  "Additional permissions" are terms that supplement the terms of this
+License by making exceptions from one or more of its conditions.
+Additional permissions that are applicable to the entire Program shall
+be treated as though they were included in this License, to the extent
+that they are valid under applicable law.  If additional permissions
+apply only to part of the Program, that part may be used separately
+under those permissions, but the entire Program remains governed by
+this License without regard to the additional permissions.
+
+  When you convey a copy of a covered work, you may at your option
+remove any additional permissions from that copy, or from any part of
+it.  (Additional permissions may be written to require their own
+removal in certain cases when you modify the work.)  You may place
+additional permissions on material, added by you to a covered work,
+for which you have or can give appropriate copyright permission.
+
+  Notwithstanding any other provision of this License, for material you
+add to a covered work, you may (if authorized by the copyright holders of
+that material) supplement the terms of this License with terms:
+
+    a) Disclaiming warranty or limiting liability differently from the
+    terms of sections 15 and 16 of this License; or
+
+    b) Requiring preservation of specified reasonable legal notices or
+    author attributions in that material or in the Appropriate Legal
+    Notices displayed by works containing it; or
+
+    c) Prohibiting misrepresentation of the origin of that material, or
+    requiring that modified versions of such material be marked in
+    reasonable ways as different from the original version; or
+
+    d) Limiting the use for publicity purposes of names of licensors or
+    authors of the material; or
+
+    e) Declining to grant rights under trademark law for use of some
+    trade names, trademarks, or service marks; or
+
+    f) Requiring indemnification of licensors and authors of that
+    material by anyone who conveys the material (or modified versions of
+    it) with contractual assumptions of liability to the recipient, for
+    any liability that these contractual assumptions directly impose on
+    those licensors and authors.
+
+  All other non-permissive additional terms are considered "further
+restrictions" within the meaning of section 10.  If the Program as you
+received it, or any part of it, contains a notice stating that it is
+governed by this License along with a term that is a further
+restriction, you may remove that term.  If a license document contains
+a further restriction but permits relicensing or conveying under this
+License, you may add to a covered work material governed by the terms
+of that license document, provided that the further restriction does
+not survive such relicensing or conveying.
+
+  If you add terms to a covered work in accord with this section, you
+must place, in the relevant source files, a statement of the
+additional terms that apply to those files, or a notice indicating
+where to find the applicable terms.
+
+  Additional terms, permissive or non-permissive, may be stated in the
+form of a separately written license, or stated as exceptions;
+the above requirements apply either way.
+
+  8. Termination.
+
+  You may not propagate or modify a covered work except as expressly
+provided under this License.  Any attempt otherwise to propagate or
+modify it is void, and will automatically terminate your rights under
+this License (including any patent licenses granted under the third
+paragraph of section 11).
+
+  However, if you cease all violation of this License, then your
+license from a particular copyright holder is reinstated (a)
+provisionally, unless and until the copyright holder explicitly and
+finally terminates your license, and (b) permanently, if the copyright
+holder fails to notify you of the violation by some reasonable means
+prior to 60 days after the cessation.
+
+  Moreover, your license from a particular copyright holder is
+reinstated permanently if the copyright holder notifies you of the
+violation by some reasonable means, this is the first time you have
+received notice of violation of this License (for any work) from that
+copyright holder, and you cure the violation prior to 30 days after
+your receipt of the notice.
+
+  Termination of your rights under this section does not terminate the
+licenses of parties who have received copies or rights from you under
+this License.  If your rights have been terminated and not permanently
+reinstated, you do not qualify to receive new licenses for the same
+material under section 10.
+
+  9. Acceptance Not Required for Having Copies.
+
+  You are not required to accept this License in order to receive or
+run a copy of the Program.  Ancillary propagation of a covered work
+occurring solely as a consequence of using peer-to-peer transmission
+to receive a copy likewise does not require acceptance.  However,
+nothing other than this License grants you permission to propagate or
+modify any covered work.  These actions infringe copyright if you do
+not accept this License.  Therefore, by modifying or propagating a
+covered work, you indicate your acceptance of this License to do so.
+
+  10. Automatic Licensing of Downstream Recipients.
+
+  Each time you convey a covered work, the recipient automatically
+receives a license from the original licensors, to run, modify and
+propagate that work, subject to this License.  You are not responsible
+for enforcing compliance by third parties with this License.
+
+  An "entity transaction" is a transaction transferring control of an
+organization, or substantially all assets of one, or subdividing an
+organization, or merging organizations.  If propagation of a covered
+work results from an entity transaction, each party to that
+transaction who receives a copy of the work also receives whatever
+licenses to the work the party's predecessor in interest had or could
+give under the previous paragraph, plus a right to possession of the
+Corresponding Source of the work from the predecessor in interest, if
+the predecessor has it or can get it with reasonable efforts.
+
+  You may not impose any further restrictions on the exercise of the
+rights granted or affirmed under this License.  For example, you may
+not impose a license fee, royalty, or other charge for exercise of
+rights granted under this License, and you may not initiate litigation
+(including a cross-claim or counterclaim in a lawsuit) alleging that
+any patent claim is infringed by making, using, selling, offering for
+sale, or importing the Program or any portion of it.
+
+  11. Patents.
+
+  A "contributor" is a copyright holder who authorizes use under this
+License of the Program or a work on which the Program is based.  The
+work thus licensed is called the contributor's "contributor version".
+
+  A contributor's "essential patent claims" are all patent claims
+owned or controlled by the contributor, whether already acquired or
+hereafter acquired, that would be infringed by some manner, permitted
+by this License, of making, using, or selling its contributor version,
+but do not include claims that would be infringed only as a
+consequence of further modification of the contributor version.  For
+purposes of this definition, "control" includes the right to grant
+patent sublicenses in a manner consistent with the requirements of
+this License.
+
+  Each contributor grants you a non-exclusive, worldwide, royalty-free
+patent license under the contributor's essential patent claims, to
+make, use, sell, offer for sale, import and otherwise run, modify and
+propagate the contents of its contributor version.
+
+  In the following three paragraphs, a "patent license" is any express
+agreement or commitment, however denominated, not to enforce a patent
+(such as an express permission to practice a patent or covenant not to
+sue for patent infringement).  To "grant" such a patent license to a
+party means to make such an agreement or commitment not to enforce a
+patent against the party.
+
+  If you convey a covered work, knowingly relying on a patent license,
+and the Corresponding Source of the work is not available for anyone
+to copy, free of charge and under the terms of this License, through a
+publicly available network server or other readily accessible means,
+then you must either (1) cause the Corresponding Source to be so
+available, or (2) arrange to deprive yourself of the benefit of the
+patent license for this particular work, or (3) arrange, in a manner
+consistent with the requirements of this License, to extend the patent
+license to downstream recipients.  "Knowingly relying" means you have
+actual knowledge that, but for the patent license, your conveying the
+covered work in a country, or your recipient's use of the covered work
+in a country, would infringe one or more identifiable patents in that
+country that you have reason to believe are valid.
+
+  If, pursuant to or in connection with a single transaction or
+arrangement, you convey, or propagate by procuring conveyance of, a
+covered work, and grant a patent license to some of the parties
+receiving the covered work authorizing them to use, propagate, modify
+or convey a specific copy of the covered work, then the patent license
+you grant is automatically extended to all recipients of the covered
+work and works based on it.
+
+  A patent license is "discriminatory" if it does not include within
+the scope of its coverage, prohibits the exercise of, or is
+conditioned on the non-exercise of one or more of the rights that are
+specifically granted under this License.  You may not convey a covered
+work if you are a party to an arrangement with a third party that is
+in the business of distributing software, under which you make payment
+to the third party based on the extent of your activity of conveying
+the work, and under which the third party grants, to any of the
+parties who would receive the covered work from you, a discriminatory
+patent license (a) in connection with copies of the covered work
+conveyed by you (or copies made from those copies), or (b) primarily
+for and in connection with specific products or compilations that
+contain the covered work, unless you entered into that arrangement,
+or that patent license was granted, prior to 28 March 2007.
+
+  Nothing in this License shall be construed as excluding or limiting
+any implied license or other defenses to infringement that may
+otherwise be available to you under applicable patent law.
+
+  12. No Surrender of Others' Freedom.
+
+  If conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot convey a
+covered work so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you may
+not convey it at all.  For example, if you agree to terms that obligate you
+to collect a royalty for further conveying from those to whom you convey
+the Program, the only way you could satisfy both those terms and this
+License would be to refrain entirely from conveying the Program.
+
+  13. Use with the GNU Affero General Public License.
+
+  Notwithstanding any other provision of this License, you have
+permission to link or combine any covered work with a work licensed
+under version 3 of the GNU Affero General Public License into a single
+combined work, and to convey the resulting work.  The terms of this
+License will continue to apply to the part which is the covered work,
+but the special requirements of the GNU Affero General Public License,
+section 13, concerning interaction through a network will apply to the
+combination as such.
+
+  14. Revised Versions of this License.
+
+  The Free Software Foundation may publish revised and/or new versions of
+the GNU General Public License from time to time.  Such new versions will
+be similar in spirit to the present version, but may differ in detail to
+address new problems or concerns.
+
+  Each version is given a distinguishing version number.  If the
+Program specifies that a certain numbered version of the GNU General
+Public License "or any later version" applies to it, you have the
+option of following the terms and conditions either of that numbered
+version or of any later version published by the Free Software
+Foundation.  If the Program does not specify a version number of the
+GNU General Public License, you may choose any version ever published
+by the Free Software Foundation.
+
+  If the Program specifies that a proxy can decide which future
+versions of the GNU General Public License can be used, that proxy's
+public statement of acceptance of a version permanently authorizes you
+to choose that version for the Program.
+
+  Later license versions may give you additional or different
+permissions.  However, no additional obligations are imposed on any
+author or copyright holder as a result of your choosing to follow a
+later version.
+
+  15. Disclaimer of Warranty.
+
+  THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+  16. Limitation of Liability.
+
+  IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS
+THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY
+GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE
+USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF
+DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD
+PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),
+EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
+
+  17. Interpretation of Sections 15 and 16.
+
+  If the disclaimer of warranty and limitation of liability provided
+above cannot be given local legal effect according to their terms,
+reviewing courts shall apply local law that most closely approximates
+an absolute waiver of all civil liability in connection with the
+Program, unless a warranty or assumption of liability accompanies a
+copy of the Program in return for a fee.
+
+                     END OF TERMS AND CONDITIONS
+
+            How to Apply These Terms to Your New Programs
+
+  If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these terms.
+
+  To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+state the exclusion of warranty; and each file should have at least
+the "copyright" line and a pointer to where the full notice is found.
+
+    <one line to give the program's name and a brief idea of what it does.>
+    Copyright (C) <year>  <name of author>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Also add information on how to contact you by electronic and paper mail.
+
+  If the program does terminal interaction, make it output a short
+notice like this when it starts in an interactive mode:
+
+    <program>  Copyright (C) <year>  <name of author>
+    This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; type `show c' for details.
+
+The hypothetical commands `show w' and `show c' should show the appropriate
+parts of the General Public License.  Of course, your program's commands
+might be different; for a GUI interface, you would use an "about box".
+
+  You should also get your employer (if you work as a programmer) or school,
+if any, to sign a "copyright disclaimer" for the program, if necessary.
+For more information on this, and how to apply and follow the GNU GPL, see
+<https://www.gnu.org/licenses/>.
+
+  The GNU General Public License does not permit incorporating your program
+into proprietary programs.  If your program is a subroutine library, you
+may consider it more useful to permit linking proprietary applications with
+the library.  If this is what you want to do, use the GNU Lesser General
+Public License instead of this License.  But first, please read
+<https://www.gnu.org/licenses/why-not-lgpl.html>.
+</file>
+
+<file path="NOTICE">
+Made By:
+Elkon Mechato
+xisolatedev
+</file>
+
+<file path="package.json">
+{
+  "name": "isolatedworld",
+  "version": "1.0.0",
+  "description": "Personal Website, Profilio, Projects, Fun",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xisolatedev/IsolatedWorld.git"
+  },
+  "keywords": [
+    "xisolatedev",
+    "personal",
+    "website"
+  ],
+  "author": "xisolatedev",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/xisolatedev/IsolatedWorld/issues"
+  },
+  "homepage": "https://github.com/xisolatedev/IsolatedWorld#readme",
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0"
+  }
+}
+</file>
+
+<file path="README.md">
+# IsolatedEngine
+Personal Website, Profilio, Projects, Fun
+</file>
+
+</files>
