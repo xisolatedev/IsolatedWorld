@@ -25,7 +25,9 @@ Otherwise, just open index.html at root to view the website.
 - Terminal details - a technical visual language alongside clean typography.
 - Responsive layout - styles adapt to smaller screens.
 - Motion accessibility - the welcome animation supports reduced-motion preferences.
-- EXPLODING PLANT: you get to shoot the planet (just click on the earth)
+- EXPLODING PLANT: you get to nuke and shoot the planet (just right click on the earth)
+
+anyways **NUKE** (right click planets)
 
 Repo Status: This repo is never gonna stop updating beacuse every weekend is a new project!
 
