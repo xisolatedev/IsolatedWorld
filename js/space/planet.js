@@ -69,12 +69,44 @@ export function createPlanet() {
     satellite.position.set(2.75, 0, 0);
     orbitOne.add(satellite);
 
+    const rotation = {
+        speed: 0.06,
+        targetSpeed: 0.06,
+        minSpeed: -3,
+        maxSpeed: 3,
+        acceleration: 0.0008
+    };
+
+    function changeRotationSpeed(wheelDelta) {
+        rotation.targetSpeed = THREE.MathUtils.clamp(
+            rotation.targetSpeed + wheelDelta * rotation.acceleration,
+            rotation.minSpeed,
+            rotation.maxSpeed
+        );
+    }
+
+    function getRotationSpeed() {
+        return rotation.speed;
+    }
+
     return {
         group: planetGroup,
         mesh: planet,
 
+        changeRotationSpeed,
+        getRotationSpeed,
+
         update(delta) {
-            planet.rotation.y += delta * 0.06;
+            // Smooth acceleration and deceleration.
+            rotation.speed = THREE.MathUtils.damp(
+                rotation.speed,
+                rotation.targetSpeed,
+                5,
+                delta
+            );
+
+            planet.rotation.y += delta * rotation.speed;
+
             orbitOne.rotation.z += delta * 0.04;
             orbitTwo.rotation.y += delta * 0.025;
         }

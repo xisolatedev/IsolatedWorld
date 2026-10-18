@@ -342,6 +342,7 @@
   border: 1px solid var(--line);
   color: var(--text);
   background: transparent;
+  border-radius: 50px;
 }
 
 .button-secondary:hover {

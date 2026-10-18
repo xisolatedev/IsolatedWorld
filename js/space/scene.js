@@ -38,17 +38,117 @@ export function startSpaceScene() {
 
     const blasts = createBlastSystem(scene, camera, world.mesh);
 
-    function resizeScene() {
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+    function onWheel(event) {
+        // Only control rotation when scrolling over Earth.
+        if (!blasts.isHoveringPlanet()) return;
 
-        if (!width || !height) return;
+        event.preventDefault();
 
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(width, height, false);
+        world.changeRotationSpeed(event.deltaY);
     }
+
+    canvas.addEventListener("wheel", onWheel, { passive: false });
+
+
+    function onContextMenu(event) {
+        // Only intercept right-clicks directly on the planet.
+        const triggered = blasts.nuke(
+            event.clientX,
+            event.clientY,
+            canvas
+        );
+
+        if (triggered) {
+            event.preventDefault();
+        }
+    }
+
+    canvas.addEventListener("contextmenu", onContextMenu);
+   
+function resizeScene() {
+    const hero = document.querySelector(".hero");
+    if (!hero) return;
+
+    const width = hero.clientWidth;
+    const height = hero.clientHeight;
+
+    if (!width || !height) return;
+
+    // Reconstruct the original .hero-world rectangle.
+    const viewportWidth = window.innerWidth;
+
+    let originalWidth;
+    let originalRight;
+    let originalTop = 0;
+    let originalBottom = 0;
+
+    if (viewportWidth <= 600) {
+        originalWidth = 690;
+        originalRight = -300;
+        originalTop = 320;
+        originalBottom = 0;
+    } else if (viewportWidth <= 800) {
+        originalWidth = 750;
+        originalRight = -210;
+        originalTop = 250;
+        originalBottom = -15;
+    } else {
+        originalWidth = Math.max(width * 0.60, 700);
+
+        originalRight = viewportWidth <= 1080
+            ? -130
+            : Math.max(-60, (viewportWidth - 1390) / 2);
+    }
+
+    const originalHeight = height - originalTop - originalBottom;
+
+    // Original globe viewport position relative to the hero.
+    const originalLeft = width - originalRight - originalWidth;
+
+    // Use the original viewport's pixel scale and camera FOV,
+    // but render into the full hero rectangle.
+    const virtualWidth = width;
+    const virtualHeight = height;
+
+    camera.aspect = virtualWidth / virtualHeight;
+
+    // Preserve the original projected globe scale.
+    const verticalFov = 42 * Math.PI / 180;
+
+    const adjustedFov = 2 * Math.atan(
+        Math.tan(verticalFov / 2) *
+        (height / originalHeight)
+    );
+
+    camera.fov = THREE.MathUtils.radToDeg(adjustedFov);
+
+    // Shift projection so the globe stays centered in
+    // its previous .hero-world rectangle.
+    const originalCenterX = originalLeft + originalWidth / 2;
+    const originalCenterY = originalTop + originalHeight / 2;
+
+    const shiftX = originalCenterX - width / 2;
+    const shiftY = originalCenterY - height / 2;
+
+    camera.filmOffset = 0;
+    camera.updateProjectionMatrix();
+
+    // Apply an off-axis projection shift.
+    const projection = camera.projectionMatrix.elements;
+
+    projection[8] -= 2 * shiftX / originalHeight /
+        Math.tan(verticalFov / 2) *
+        Math.tan(adjustedFov / 2);
+
+    projection[9] += 2 * shiftY / originalHeight /
+        Math.tan(verticalFov / 2) *
+        Math.tan(adjustedFov / 2);
+
+    camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+
+    renderer.setSize(width, height, false);
+}
+
 
     resizeScene();
 
@@ -103,6 +203,8 @@ export function startSpaceScene() {
         canvas.removeEventListener("pointerdown", onPointerDown);
         canvas.removeEventListener("pointermove", onPointerMove);
         canvas.removeEventListener("pointerleave", onPointerLeave);
+        canvas.removeEventListener("wheel", onWheel);
+        canvas.removeEventListener("contextmenu", onContextMenu);
 
         blasts.dispose();
         renderer.dispose();

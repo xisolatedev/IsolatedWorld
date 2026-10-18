@@ -11,6 +11,178 @@ export function createBlastSystem(scene, camera, planet) {
     const projectileGeometry = new THREE.SphereGeometry(0.055, 12, 12);
 
 
+    const explosions = [];
+
+    // Reusable geometry for explosion fragments.
+    const fragmentGeometry = new THREE.IcosahedronGeometry(0.045, 0);
+
+    function nuke(clientX, clientY, canvas) {
+        const rect = canvas.getBoundingClientRect();
+
+        pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(pointer, camera);
+
+        const hits = raycaster.intersectObject(planet, false);
+        if (hits.length === 0) return false;
+
+        const hit = hits[0];
+        const localPoint = planet.worldToLocal(hit.point.clone());
+        const normal = localPoint.clone().normalize();
+
+        const explosion = new THREE.Group();
+        explosion.position.copy(localPoint).addScaledVector(normal, 0.06);
+        explosion.quaternion.setFromUnitVectors(
+            new THREE.Vector3(0, 0, 1),
+            normal
+        );
+
+        // Expanding red shockwave.
+        const ring = new THREE.Mesh(
+            new THREE.RingGeometry(0.1, 0.15, 96),
+            new THREE.MeshBasicMaterial({
+                color: 0xff3333,
+                transparent: true,
+                opacity: 1,
+                side: THREE.DoubleSide,
+                depthWrite: false
+            })
+        );
+
+        explosion.add(ring);
+
+        // Bright impact flash.
+        const flash = new THREE.Mesh(
+            new THREE.SphereGeometry(0.25, 24, 24),
+            new THREE.MeshBasicMaterial({
+                color: 0xffddaa,
+                transparent: true,
+                opacity: 1,
+                depthWrite: false
+            })
+        );
+
+        explosion.add(flash);
+
+        // Expanding energy shell.
+        const shell = new THREE.Mesh(
+            new THREE.SphereGeometry(0.3, 32, 32),
+            new THREE.MeshBasicMaterial({
+                color: 0xff5522,
+                transparent: true,
+                opacity: 0.35,
+                side: THREE.DoubleSide,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            })
+        );
+
+        explosion.add(shell);
+
+        // Fragments travel outward from the impact.
+        const fragments = [];
+
+        for (let i = 0; i < 85; i++) {
+            const fragment = new THREE.Mesh(
+                fragmentGeometry,
+                new THREE.MeshBasicMaterial({
+                    color: Math.random() > 0.5 ? 0xff5522 : 0xffcc66,
+                    transparent: true,
+                    opacity: 1
+                })
+            );
+
+            const direction = new THREE.Vector3(
+                (Math.random() - 0.5) * 2,
+                (Math.random() - 0.5) * 2,
+                Math.random() * 1.5 + 0.3
+            ).normalize();
+
+            const speed = 1.5 + Math.random() * 3;
+
+            fragment.userData.velocity = direction.multiplyScalar(speed);
+
+            fragment.scale.setScalar(0.5 + Math.random() * 2);
+
+            explosion.add(fragment);
+            fragments.push(fragment);
+        }
+
+        planet.add(explosion);
+
+        explosions.push({
+            group: explosion,
+            ring,
+            flash,
+            shell,
+            fragments,
+            elapsed: 0,
+            duration: 2.5
+        });
+
+        return true;
+    }
+
+    function isHoveringPlanet() {
+        return marker.visible;
+    }
+
+    function updateExplosions(delta) {
+        for (let i = explosions.length - 1; i >= 0; i--) {
+            const explosion = explosions[i];
+
+            explosion.elapsed += delta;
+
+            const t = Math.min(
+                explosion.elapsed / explosion.duration,
+                1
+            );
+
+            // Large expanding shockwave.
+            explosion.ring.scale.setScalar(1 + t * 30);
+            explosion.ring.material.opacity = Math.pow(1 - t, 2);
+
+            // Flash expands quickly, then fades.
+            explosion.flash.scale.setScalar(1 + t * 8);
+            explosion.flash.material.opacity = Math.pow(1 - t, 5);
+
+            // Energy shell expands and disappears.
+            explosion.shell.scale.setScalar(1 + t * 15);
+            explosion.shell.material.opacity = 0.35 * (1 - t);
+
+            // Animate fragments.
+            for (const fragment of explosion.fragments) {
+                fragment.position.addScaledVector(
+                    fragment.userData.velocity,
+                    delta
+                );
+
+                fragment.rotation.x += delta * 3;
+                fragment.rotation.y += delta * 2;
+
+                fragment.material.opacity = 1 - t;
+            }
+
+            if (t >= 1) {
+                planet.remove(explosion.group);
+
+                explosion.group.traverse(object => {
+                    if (!object.isMesh) return;
+
+                    // Shared fragment geometry is disposed separately.
+                    if (object.geometry !== fragmentGeometry) {
+                        object.geometry.dispose();
+                    }
+
+                    object.material.dispose();
+                });
+
+                explosions.splice(i, 1);
+            }
+        }
+    }
+
     // 3D targeting marker.
     const marker = new THREE.Group();
 
@@ -63,8 +235,19 @@ export function createBlastSystem(scene, camera, planet) {
     planet.add(marker);
 
     const normalAxis = new THREE.Vector3(0, 0, 1);
-    const markerNormal = new THREE.Vector3();
 
+    const markerNormal = new THREE.Vector3();
+    const targetNormal = new THREE.Vector3();
+    const currentNormal = new THREE.Vector3();
+
+    const rotationFrom = new THREE.Quaternion();
+    const rotationTo = new THREE.Quaternion();
+    const rotationStep = new THREE.Quaternion();
+
+    let markerInitialized = false;
+
+    const planetRadius = 2;
+    const markerOffset = 0.045;
     function hover(clientX, clientY, canvas) {
         const rect = canvas.getBoundingClientRect();
 
@@ -76,34 +259,87 @@ export function createBlastSystem(scene, camera, planet) {
         const hits = raycaster.intersectObject(planet, false);
 
         if (hits.length === 0) {
-            marker.visible = false;
+            hideMarker();
             canvas.style.cursor = "crosshair";
             return;
         }
-        canvas.style.cursor = "none";
-        const hit = hits[0];
 
-        // Convert world-space intersection to planet-local coordinates.
+        canvas.style.cursor = "none";
+
+        const hit = hits[0];
         const localPoint = planet.worldToLocal(hit.point.clone());
 
-        // Sphere normals point outward from its center.
-        markerNormal.copy(localPoint).normalize();
+        targetNormal.copy(localPoint).normalize();
 
-        // Position the reticle just above the planet's surface.
-        marker.position.copy(localPoint)
-            .addScaledVector(markerNormal, 0.025);
-
-        // Rotate the reticle to face along the surface normal.
-        marker.quaternion.setFromUnitVectors(
-            normalAxis,
-            markerNormal
-        );
+        if (!markerInitialized) {
+            // First appearance: snap to cursor.
+            currentNormal.copy(targetNormal);
+            markerInitialized = true;
+        }
 
         marker.visible = true;
     }
 
+
+function updateMarker(delta) {
+    if (!marker.visible || !markerInitialized) return;
+
+    // Angular distance between current and target surface normals.
+    const angle = currentNormal.angleTo(targetNormal);
+
+    // Small movements track slowly; large movements catch up quickly.
+    const minSpeed = 3;
+    const maxSpeed = 22;
+
+    const distanceFactor = THREE.MathUtils.smoothstep(
+        angle,
+        0.02,
+        1.2
+    );
+
+    const responsiveness = THREE.MathUtils.lerp(
+        minSpeed,
+        maxSpeed,
+        distanceFactor
+    );
+
+    // Frame-rate-independent interpolation.
+    const alpha = 1 - Math.exp(-responsiveness * delta);
+
+    // Rotate the current normal toward the target normal.
+    rotationFrom.setFromUnitVectors(normalAxis, currentNormal);
+    rotationTo.setFromUnitVectors(normalAxis, targetNormal);
+
+    rotationStep.copy(rotationFrom).slerp(rotationTo, alpha);
+
+    currentNormal
+        .set(0, 0, 1)
+        .applyQuaternion(rotationStep)
+        .normalize();
+
+    // Always project the marker onto the sphere surface.
+    marker.position
+        .copy(currentNormal)
+        .multiplyScalar(planetRadius + markerOffset);
+
+    // Orient the marker to the interpolated surface normal.
+    marker.quaternion.setFromUnitVectors(
+        normalAxis,
+        currentNormal
+    );
+
+    // Gentle pulse.
+    const time = performance.now() * 0.001;
+    const pulse = 1 + Math.sin(time * 4) * 0.06;
+
+    marker.scale.setScalar(pulse);
+}
+
+
+
     function hideMarker() {
         marker.visible = false;
+        markerInitialized = false;
     }
 
 
@@ -201,14 +437,7 @@ export function createBlastSystem(scene, camera, planet) {
 
     function update(delta) {
 
-        if (marker.visible) {
-            const time = performance.now() * 0.001;
-
-            // Slight breathing effect.
-            const pulse = 1 + Math.sin(time * 4) * 0.06;
-
-            marker.scale.setScalar(pulse);
-        }
+        updateMarker(delta);
         // Animate projectiles.
         for (let i = projectiles.length - 1; i >= 0; i--) {
             const blast = projectiles[i];
@@ -268,6 +497,8 @@ export function createBlastSystem(scene, camera, planet) {
                 impacts.splice(i, 1);
             }
         }
+
+        updateExplosions(delta);
     }
 
     function dispose() {
@@ -287,6 +518,23 @@ export function createBlastSystem(scene, camera, planet) {
         }
         planet.remove(marker);
 
+        for (const explosion of explosions) {
+            planet.remove(explosion.group);
+
+            explosion.group.traverse(object => {
+                if (!object.isMesh) return;
+
+                if (object.geometry !== fragmentGeometry) {
+                    object.geometry.dispose();
+                }
+
+                object.material.dispose();
+            });
+        }
+
+        explosions.length = 0;
+        fragmentGeometry.dispose();
+
         markerRing.geometry.dispose();
         markerDot.geometry.dispose();
         tickGeometry.dispose();
@@ -298,8 +546,10 @@ export function createBlastSystem(scene, camera, planet) {
 
     return {
         fire,
+        nuke,
         hover,
         hideMarker,
+        isHoveringPlanet,
         update,
         dispose
     };
